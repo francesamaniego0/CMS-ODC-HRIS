@@ -1,0 +1,248 @@
+.mod-inputs-nw {
+    font-size: 1.2rem;
+    height: 35px;
+    padding: 10px;
+    outline: none;
+    border: 1px solid #e7e6e6;
+    box-shadow: inset 1px 2px 1px 1px rgba(116, 113, 113, 0.5);
+    border-radius: 5px;
+/*    color: var(--secondary-dark);*/
+}
+/* Modal */
+.modal-holder {
+    background-color: rgba(0,0,0, .3);
+    position: fixed;
+    top: 0;
+    width: calc(100vw - var(--sidebarwidth-active));
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    display: none;
+}
+
+.timelogsmodal {
+    background-color: #fff;
+    width: 700px;
+    box-shadow: 10px 10px 10px grey;
+    border-radius: 15px;
+    padding: 25px 50px;
+    gap: 20px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #000;
+}
+/* Close Button */
+.closemodal {
+    vertical-align: middle;
+    border: none;
+    color: inherit;
+    border-radius: 50%;
+    background: transparent;
+    position: relative;
+    width: 32px;
+    height: 32px;
+    opacity: 0.6;
+}
+
+.closemodal:focus,
+.closemodal:hover {
+    opacity: 1;
+    background: rgba(128, 128, 128, 0.5);
+}
+
+.closemodal:active {
+    background: rgba(128, 128, 128, 0.9);
+}
+/* tines of the X */
+.closemodal::before,
+.closemodal::after {
+    content: " ";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 20px;
+    width: 4px;
+    background-color: currentColor;
+}
+
+.closemodal::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.closemodal::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+/* Text Fiel */
+.input-holder {
+    margin: 20px 0;
+}
+
+.input-holder .input-container {
+    margin-top: 5px;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.input-holder .input-container input,
+.input-holder .input-container textarea,
+.input-holder .input-container select {
+    width: 100% !important;
+    /* padding: 10px 5px; */
+    margin: 0;
+}
+/* Style for the error message */
+.error {
+    color: red;
+    font-size: 14px;
+    display: none; /* Hidden by default */
+}
+
+/* Style for the submit button when disabled */
+button:disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
+}
+/*Task Description Modal*/
+.taskDesc {
+    background: RGBA(0, 63, 136, .9);
+    color: white;
+    position: absolute;
+    width: 30%;
+    min-height: 200px;
+    padding: 15px;
+    text-align: left;
+    display: none;
+    flex-direction: column;
+    margin-left: -20px;
+    border-radius: 8px;
+    z-index: 1
+}
+.m-notification{
+    cursor: pointer;
+    position: relative;
+}
+.m-notification span {
+    background-color: red !important;
+    color: white !important;
+    padding: 8px;
+    border-radius: 100%;
+    font-size: 15px;
+    position: absolute;
+    top: -10px;
+    right: 85%;
+}
+
+.timeout-modal-holder {
+    background-color: rgba(0,0,0, .3);
+    position: fixed;
+    top: 0;
+    width: calc(100vw - var(--sidebarwidth-active));
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    display: none;
+}
+.timeout-modal-holder #timeoutreasonholder{
+    display: none;
+}
+
+.sub-content-mv {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+/*.print-page-md {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    flex-direction: column;
+}*/
+
+.text-regular {
+    font-weight: normal !important;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+footer {
+    background-color: #f1f1f1;
+    color: #333;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.print-page-md {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    flex-direction: column;
+    padding: 0
+} 
+
+#add-time-in-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+/*    height: 50%;*/
+    flex-direction: column;
+}
+
+.mod-inputs-nw {
+    font-size: 1.2rem;
+    height: 35px;
+    padding: 10px;
+    outline: none;
+    border: 1px solid #e7e6e6;
+    box-shadow: inset 1px 2px 1px 1px rgba(116, 113, 113, 0.5);
+    border-radius: 5px;
+/*    color: var(--secondary-dark);*/
+}
+
+.input-container-2 {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.mod-form span {
+    font-size: 13px;
+    font-weight: 900;
+/*    color: var(--secondary-dark);*/
+}
+
+#remarks {
+    /* Ensure the text starts at the top-left */
+    text-align: left; /* Align text to the left */
+    vertical-align: top; /* Align text to the top (not strictly needed for textarea but good practice) */
+    padding: 5px; /* Add some padding for better visual appearance, adjust as needed */
+    box-sizing: border-box; /* Ensure padding and border are included in the width and height */
+    resize: both; /* Allow the user to resize the textarea (optional) */
+    overflow: auto;
+    width: 100%;
+    resize: none;
+    height: 150px;
+}
+
+#mode-inputs {
+    display: flex;
+}
