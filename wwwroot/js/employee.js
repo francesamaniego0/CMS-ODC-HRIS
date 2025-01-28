@@ -1,65 +1,48 @@
 var addressCondition = 0;
 
- function getRegionsData() {
+function getRegionsData() {
     $.ajax({
         type: "GET",
         url: "../../../excel/barangay_files/refregion.csv",
-        dataType: "text",
+        //dataType: "text",
         success: function (data) {
             //console.log(data);
             const array = data.toString().split("\n");
-            let headers = array[0].split(",");
+            let headers = array[0].replaceAll('"', '').split(",");
             //console.log(array.length);
+            //console.log(headers);
             $("#region").empty();
             $("#region").append('<option value="0" disabled selected>Select Region</option>');
-            for (var i = 0; i < array.length; i++) {
-                let headers = array[i].split(",");
-                //console.log(headers[2]);
-                $("#region").append('<option value="' + headers[2].replaceAll('"', '') + '" data-id="' + headers[3].replaceAll('"', '') + '">' + headers[2].replaceAll('"', '') + "</option>");
+            for (var i = 0; i < array.length-1; i++) {
+                let headers = array[i].replaceAll('"', '').split(",");
+
+                $("#region").append('<option value="' + headers[2] + '" data-id="' + headers[3]+ '">' + headers[2] + "</option>");
             }
-            
-            
         }
-    });
+     });
 }
 function getProvinceData() {
     var region = $("#region option:selected").data('id').toString().trim();
-    //console.log(region);
-    //alert(region);
-     //console.log(localStorage.getItem('selectedRegion'));
+    region = parseInt(region, 10);
     $.ajax({
         type: "GET",
         url: "../../../excel/barangay_files/refprovince.csv",
         dataType: "text",
         success: function (data) {
-            //console.log(data);
             const array = data.toString().split("\n");
-            //let headers = array[0].split(",");
-            console.log(array.length);
             $("#province").empty();
             $("#province").append('<option value="0" disabled selected>Select Province</option>');
             for (var i = 0; i < array.length; i++) {
-                let headers = array[i].split(",");
-                //console.log(headers[2].replaceAll('"', ''));
-                //console.log((headers[3].replaceAll('"', '')) + " == " + region);
-                //console.log((headers[3].replaceAll('"', '')) + " == " + region.replaceAll('"', ''));
-                var lookUp = headers[3].replaceAll('"', '').toString().trim();
-                //console.log(lookUp);
-                //console.log(region);
-                if (lookUp == region) {
+                let headers = array[i].replaceAll('"', '').split(",");
+                var lookupProvince = parseInt(headers[3], 10);
+                console.log(headers[3]);
+                if (lookupProvince == region) {
                     //console.log(headers[2].replaceAll('"', ''));
-                    $("#province").append('<option value="' + headers[2].replaceAll('"', '') + '"  data-id="' + headers[4].replaceAll('"', '').trim() + '">' + headers[2].replaceAll('"', '') + "</option>");
+                    //console.log(headers[2]);
+                    //console.log(lookupProvince);
+                    //console.log(region);
+                    $("#province").append('<option value="' + headers[2] + '"  data-id="' + headers[4] + '">' + headers[2] + "</option>");
                 }
-                //switch (lookUp) {
-                //    case region:
-                //        //console.log(headers[2].replaceAll('"', ''));
-                //        $("#province").append('<option value="' + headers[2].replaceAll('"', '') + '"  data-id="' + headers[4].replaceAll('"', '') + '">' + headers[2].replaceAll('"', '') + "</option>");
-
-                //        break;
-                   
-                //    default:
-                //        //console.log(lookUp);
-                //}
 
             }
 
@@ -82,11 +65,11 @@ function getProvinceData() {
             $("#municipality").empty();
             $("#municipality").append('<option value="0" disabled selected>Select City</option>');
             for (var i = 0; i < array.length; i++) {
-                let headers = array[i].split(",");
-                var lookUpCity = headers[4].replaceAll('"', '').toString().trim();
+                let headers = array[i].replaceAll('"', '').split(",");
+                var lookUpCity = headers[4];
                 //console.log(headers[2]);
                 if (lookUpCity == province) {
-                    $("#municipality").append('<option value="' + headers[2].replaceAll('"', '') + '"  data-id="' + headers[5].replaceAll('"', '').trim() + '">' + headers[2].replaceAll('"', '') + "</option>");
+                    $("#municipality").append('<option value="' + headers[2] + '"  data-id="' + headers[5] + '">' + headers[2] + "</option>");
                 }
                 
             }
