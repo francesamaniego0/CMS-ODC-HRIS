@@ -46,20 +46,20 @@ function getProvinceData() {
                 var lookUp = headers[3].replaceAll('"', '').toString().trim();
                 //console.log(lookUp);
                 //console.log(region);
-                //if (lookUp == region) {
-                //    console.log(headers[2].replaceAll('"', ''));
-                //    $("#province").append('<option value="' + headers[2].replaceAll('"', '') + '"  data-id="' + headers[4].replaceAll('"', '') + '">' + headers[2].replaceAll('"', '') + "</option>");
-                //}
-                switch (lookUp) {
-                    case region:
-                        console.log(headers[2].replaceAll('"', ''));
-                        $("#province").append('<option value="' + headers[2].replaceAll('"', '') + '"  data-id="' + headers[4].replaceAll('"', '') + '">' + headers[2].replaceAll('"', '') + "</option>");
-
-                        break;
-                   
-                    default:
-                        console.log(lookUp);
+                if (lookUp == region) {
+                    console.log(headers[2].replaceAll('"', ''));
+                    $("#province").append('<option value="' + headers[2].replaceAll('"', '') + '"  data-id="' + headers[4].replaceAll('"', '') + '">' + headers[2].replaceAll('"', '') + "</option>");
                 }
+                //switch (lookUp) {
+                //    case region:
+                //        //console.log(headers[2].replaceAll('"', ''));
+                //        $("#province").append('<option value="' + headers[2].replaceAll('"', '') + '"  data-id="' + headers[4].replaceAll('"', '') + '">' + headers[2].replaceAll('"', '') + "</option>");
+
+                //        break;
+                   
+                //    default:
+                //        //console.log(lookUp);
+                //}
 
             }
 
@@ -84,7 +84,7 @@ function getProvinceData() {
             for (var i = 0; i < array.length - 1; i++) {
                 let headers = array[i].split(",");
                 //console.log(headers[2]);
-                if (headers[4].replaceAll('"', '') == province) {
+                if (headers[4].replaceAll('"', '').trim() == province.trim()) {
                     $("#municipality").append('<option value="' + headers[2].replaceAll('"', '')+ '"  data-id="' + headers[5].replaceAll('"', '') + '">' + headers[2].replaceAll('"', '') + "</option>");
                 }
                 
@@ -110,7 +110,7 @@ function getProvinceData() {
             for (var i = 0; i < array.length - 1; i++) {
                 let headers = array[i].split(",");
                 //console.log(headers[2]);
-                if (headers[5].replaceAll('"', '') == city) {
+                if (headers[5].replaceAll('"', '').trim() == city.trim()) {
                     $("#barangay").append('<option value="' + headers[2].replaceAll('"', '') + '">' + headers[2].replaceAll('"', '').toUpperCase() + "</option>");
                 }
                 
