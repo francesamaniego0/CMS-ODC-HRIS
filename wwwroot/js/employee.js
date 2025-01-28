@@ -114,7 +114,7 @@ var addressCondition = 0;
     barangay.disabled = 'true';
     $("#region").change(function () {
          var regionValue = $("#region option:selected").data('id');
-         //console.log(regionValue);
+         console.log(regionValue);
 
          localStorage.setItem('region', regionValue);
 
