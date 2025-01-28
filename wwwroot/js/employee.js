@@ -1,6 +1,6 @@
 var addressCondition = 0;
 
- function getRegionsData() {
+function getRegionsData() {
     $.ajax({
         type: "GET",
         url: "../../../excel/barangay_files/refregion.csv",
@@ -22,7 +22,7 @@ var addressCondition = 0;
         }
     });
 }
- function getProvinceData() {
+function getProvinceData() {
     var region = $("#region option:selected").data('id');
     //console.log(region);
     //alert(region);
@@ -38,7 +38,7 @@ var addressCondition = 0;
 
             for (var i = 0; i < array.length; i++) { // Start from 1 to skip the headers row
                 let row = array[i].split(","); // Split each row by comma
-                if (row[3]?.replaceAll('"', '') === region.replaceAll('"', '')) { // Compare region with the 4th column
+                if (row[3]?.replaceAll('"', '') == region.replaceAll('"', '')) { // Compare region with the 4th column
                     $("#province").append('<option value="' + row[2]?.replaceAll('"', '') + '"  data-id="' + row[4]?.replaceAll('"', '') + '">' + row[2]?.replaceAll('"', '') + "</option>");
                 }
             }
@@ -49,7 +49,7 @@ var addressCondition = 0;
         }
     });
 }
- function getCityData() {
+function getCityData() {
      var province = $("#province option:selected").data('id');
      //console.log("province");
     $.ajax({
@@ -75,7 +75,7 @@ var addressCondition = 0;
         }
     });
 }
- function getBarangayData() {
+function getBarangayData() {
      var city = $("#municipality option:selected").data('id');
      //console.log("city");
     $.ajax({
