@@ -24,7 +24,7 @@ var addressCondition = 0;
 }
  function getProvinceData() {
     var region = $("#region option:selected").data('id');
-    console.log("region");
+    console.log(region);
     //alert(region);
      //console.log(localStorage.getItem('selectedRegion'));
     $.ajax({
