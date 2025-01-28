@@ -41,6 +41,8 @@ var addressCondition = 0;
             for (var i = 0; i < array.length - 1; i++) {
                 let headers = array[i].split(",");
                 console.log(headers[2].replaceAll('"', ''));
+                console.log((headers[3].replaceAll('"', '') + " == " + region);
+                console.log((headers[3].replaceAll('"', '') + " == " + region.replaceAll('"', '');
                 if (headers[3].replaceAll('"', '') == region) {
                     $("#province").append('<option value="' + headers[2].replaceAll('"', '') + '"  data-id="' + headers[4].replaceAll('"', '') + '">' + headers[2].replaceAll('"', '') + "</option>");
                 }
