@@ -47,6 +47,9 @@ var addressCondition = 0;
                 
             }
 
+        },
+        error: function (data) {
+            console.log(data);
         }
     });
 }
