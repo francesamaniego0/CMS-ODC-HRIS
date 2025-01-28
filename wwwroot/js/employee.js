@@ -22,8 +22,8 @@ var addressCondition = 0;
         }
     });
 }
- function getProvinceData() {
-    var region = $("#region option:selected").data('id');
+function getProvinceData() {
+    var region = $("#region option:selected").data('id').toString();
     //console.log(region);
     //alert(region);
      //console.log(localStorage.getItem('selectedRegion'));
@@ -43,7 +43,8 @@ var addressCondition = 0;
                 //console.log(headers[2].replaceAll('"', ''));
                 //console.log((headers[3].replaceAll('"', '')) + " == " + region);
                 //console.log((headers[3].replaceAll('"', '')) + " == " + region.replaceAll('"', ''));
-                if (headers[3].replaceAll('"', '') == region) {
+                var lookUp = headers[3].replaceAll('"', '').toString();
+                if (lookUp === region) {
                     console.log(headers[2].replaceAll('"', ''));
                     $("#province").append('<option value="' + headers[2].replaceAll('"', '') + '"  data-id="' + headers[4].replaceAll('"', '') + '">' + headers[2].replaceAll('"', '') + "</option>");
                 }
