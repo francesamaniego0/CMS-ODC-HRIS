@@ -23,7 +23,7 @@ var addressCondition = 0;
     });
 }
 function getProvinceData() {
-    var region = $("#region option:selected").data('id').toString();
+    var region = $("#region option:selected").data('id').toString().trim();;
     //console.log(region);
     //alert(region);
      //console.log(localStorage.getItem('selectedRegion'));
@@ -43,7 +43,7 @@ function getProvinceData() {
                 //console.log(headers[2].replaceAll('"', ''));
                 //console.log((headers[3].replaceAll('"', '')) + " == " + region);
                 //console.log((headers[3].replaceAll('"', '')) + " == " + region.replaceAll('"', ''));
-                var lookUp = headers[3].replaceAll('"', '').toString();
+                var lookUp = headers[3].replaceAll('"', '').toString().trim();
                 //console.log(lookUp);
                 //console.log(region);
                 //if (lookUp == region) {
@@ -58,7 +58,7 @@ function getProvinceData() {
                         break;
                    
                     default:
-                        console.log("No Data")
+                        console.log(lookUp);
                 }
 
             }
