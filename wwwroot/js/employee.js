@@ -24,7 +24,7 @@ var addressCondition = 0;
 }
  function getProvinceData() {
     var region = $("#region option:selected").data('id');
-    console.log(region);
+    //console.log(region);
     //alert(region);
      //console.log(localStorage.getItem('selectedRegion'));
     $.ajax({
@@ -32,19 +32,15 @@ var addressCondition = 0;
         url: "../../../excel/barangay_files/refprovince.csv",
         dataType: "text",
         success: function (data) {
-            //console.log(data);
-            const array = data.toString().split("\n");
-            let headers = array[0].split(",")
-            //console.log(array.length);
+            const array = data.toString().split("\n"); // Split CSV file into lines
             $("#province").empty();
             $("#province").append('<option value="0" disabled selected>Select Province</option>');
-            for (var i = 0; i < array.length - 1; i++) {
-                let headers = array[i].split(",")
-                //console.log(region);
-                if (headers[3].replaceAll('"', '') == region) {
-                    $("#province").append('<option value="' + headers[2].replaceAll('"', '') + '"  data-id="' + headers[4].replaceAll('"', '') + '">' + headers[2].replaceAll('"', '') + "</option>");
+
+            for (var i = 0; i < array.length; i++) { // Start from 1 to skip the headers row
+                let row = array[i].split(","); // Split each row by comma
+                if (row[3]?.replaceAll('"', '') === region.replaceAll('"', '')) { // Compare region with the 4th column
+                    $("#province").append('<option value="' + row[2]?.replaceAll('"', '') + '"  data-id="' + row[4]?.replaceAll('"', '') + '">' + row[2]?.replaceAll('"', '') + "</option>");
                 }
-                
             }
 
         },
@@ -176,8 +172,7 @@ function GetAllDataAddress() {
                 let headers = array[i].split(",")
                 //console.log(region);
                 $("#province").append('<option value="' + headers[2].replaceAll('"', '') + '"  data-id="' + headers[4].replaceAll('"', '') + '">' + headers[2].replaceAll('"', '') + "</option>");
-                
-
+              
             }
 
         }
