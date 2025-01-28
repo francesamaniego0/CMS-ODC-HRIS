@@ -44,11 +44,21 @@ function getProvinceData() {
                 //console.log((headers[3].replaceAll('"', '')) + " == " + region);
                 //console.log((headers[3].replaceAll('"', '')) + " == " + region.replaceAll('"', ''));
                 var lookUp = headers[3].replaceAll('"', '').toString();
-                console.log(lookUp);
-                console.log(region);
-                if (lookUp === region) {
-                    console.log(headers[2].replaceAll('"', ''));
-                    $("#province").append('<option value="' + headers[2].replaceAll('"', '') + '"  data-id="' + headers[4].replaceAll('"', '') + '">' + headers[2].replaceAll('"', '') + "</option>");
+                //console.log(lookUp);
+                //console.log(region);
+                //if (lookUp == region) {
+                //    console.log(headers[2].replaceAll('"', ''));
+                //    $("#province").append('<option value="' + headers[2].replaceAll('"', '') + '"  data-id="' + headers[4].replaceAll('"', '') + '">' + headers[2].replaceAll('"', '') + "</option>");
+                //}
+                switch (lookUp) {
+                    case region:
+                        console.log(headers[2].replaceAll('"', ''));
+                        $("#province").append('<option value="' + headers[2].replaceAll('"', '') + '"  data-id="' + headers[4].replaceAll('"', '') + '">' + headers[2].replaceAll('"', '') + "</option>");
+
+                        break;
+                   
+                    default:
+                        console.log("No Data")
                 }
 
             }
