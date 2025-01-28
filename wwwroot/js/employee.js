@@ -12,7 +12,7 @@ var addressCondition = 0;
             //console.log(array.length);
             $("#region").empty();
             $("#region").append('<option value="0" disabled selected>Select Region</option>');
-            for (var i = 0; i < array.length-1; i++) {
+            for (var i = 0; i < array.length; i++) {
                 let headers = array[i].split(",");
                 //console.log(headers[2]);
                 $("#region").append('<option value="' + headers[2].replaceAll('"', '') + '" data-id="' + headers[3].replaceAll('"', '') + '">' + headers[2].replaceAll('"', '') + "</option>");
@@ -23,7 +23,7 @@ var addressCondition = 0;
     });
 }
 function getProvinceData() {
-    var region = $("#region option:selected").data('id').toString().trim();;
+    var region = $("#region option:selected").data('id').toString().trim();
     //console.log(region);
     //alert(region);
      //console.log(localStorage.getItem('selectedRegion'));
@@ -32,21 +32,21 @@ function getProvinceData() {
         url: "../../../excel/barangay_files/refprovince.csv",
         dataType: "text",
         success: function (data) {
-            console.log(data);
+            //console.log(data);
             const array = data.toString().split("\n");
             //let headers = array[0].split(",");
             console.log(array.length);
             $("#province").empty();
             $("#province").append('<option value="0" disabled selected>Select Province</option>');
-            for (var i = 0; i < array.length - 1; i++) {
+            for (var i = 0; i < array.length; i++) {
                 let headers = array[i].split(",");
                 //console.log(headers[2].replaceAll('"', ''));
                 //console.log((headers[3].replaceAll('"', '')) + " == " + region);
                 //console.log((headers[3].replaceAll('"', '')) + " == " + region.replaceAll('"', ''));
-                //var lookUp = ;
+                var lookUp = headers[3].replaceAll('"', '').toString().trim();
                 //console.log(lookUp);
                 //console.log(region);
-                if (headers[3].replaceAll('"', '').toString().trim() == region.trim()) {
+                if (lookUp == region) {
                     //console.log(headers[2].replaceAll('"', ''));
                     $("#province").append('<option value="' + headers[2].replaceAll('"', '') + '"  data-id="' + headers[4].replaceAll('"', '').trim() + '">' + headers[2].replaceAll('"', '') + "</option>");
                 }
@@ -68,7 +68,7 @@ function getProvinceData() {
     });
 }
  function getCityData() {
-     var province = $("#province option:selected").data('id');
+     var province = $("#province option:selected").data('id').toString().trim();
      //console.log("province");
     $.ajax({
         type: "GET",
@@ -81,10 +81,11 @@ function getProvinceData() {
             //console.log(array.length);
             $("#municipality").empty();
             $("#municipality").append('<option value="0" disabled selected>Select City</option>');
-            for (var i = 0; i < array.length - 1; i++) {
+            for (var i = 0; i < array.length; i++) {
                 let headers = array[i].split(",");
+                var lookUpCity = headers[4].replaceAll('"', '').toString().trim();
                 //console.log(headers[2]);
-                if (headers[4].replaceAll('"', '').trim() == province.trim()) {
+                if (lookUpCity == province) {
                     $("#municipality").append('<option value="' + headers[2].replaceAll('"', '') + '"  data-id="' + headers[5].replaceAll('"', '').trim() + '">' + headers[2].replaceAll('"', '') + "</option>");
                 }
                 
@@ -107,7 +108,7 @@ function getProvinceData() {
             //console.log(array.length);
             $("#barangay").empty();
             $("#barangay").append('<option value="0" disabled selected>Select Barangay</option>');
-            for (var i = 0; i < array.length - 1; i++) {
+            for (var i = 0; i < array.length; i++) {
                 let headers = array[i].split(",");
                 //console.log(headers[2]);
                 if (headers[5].replaceAll('"', '').trim() == city.trim()) {
