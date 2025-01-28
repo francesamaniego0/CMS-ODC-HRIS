@@ -32,9 +32,9 @@ var addressCondition = 0;
         url: "../../../excel/barangay_files/refprovince.csv",
         dataType: "text",
         success: function (data) {
-            //console.log(data);
+            console.log(data);
             const array = data.toString().split("\n");
-            let headers = array[0].split(",");
+            //let headers = array[0].split(",");
             //console.log(array.length);
             $("#province").empty();
             $("#province").append('<option value="0" disabled selected>Select Province</option>');
