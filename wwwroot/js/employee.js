@@ -39,7 +39,7 @@ var addressCondition = 0;
             $("#province").empty();
             $("#province").append('<option value="0" disabled selected>Select Province</option>');
             for (var i = 0; i < array.length - 1; i++) {
-                let headers = array[i].split(",")
+                let headers = array[i].split(",");
                 //console.log(region);
                 if (headers[3].replaceAll('"', '') == region) {
                     $("#province").append('<option value="' + headers[2].replaceAll('"', '') + '"  data-id="' + headers[4].replaceAll('"', '') + '">' + headers[2].replaceAll('"', '') + "</option>");
@@ -66,7 +66,7 @@ var addressCondition = 0;
             $("#municipality").empty();
             $("#municipality").append('<option value="0" disabled selected>Select City</option>');
             for (var i = 0; i < array.length - 1; i++) {
-                let headers = array[i].split(",")
+                let headers = array[i].split(",");
                 //console.log(headers[2]);
                 if (headers[4].replaceAll('"', '') == province) {
                     $("#municipality").append('<option value="' + headers[2].replaceAll('"', '')+ '"  data-id="' + headers[5].replaceAll('"', '') + '">' + headers[2].replaceAll('"', '') + "</option>");
@@ -92,7 +92,7 @@ var addressCondition = 0;
             $("#barangay").empty();
             $("#barangay").append('<option value="0" disabled selected>Select Barangay</option>');
             for (var i = 0; i < array.length - 1; i++) {
-                let headers = array[i].split(",")
+                let headers = array[i].split(",");
                 //console.log(headers[2]);
                 if (headers[5].replaceAll('"', '') == city) {
                     $("#barangay").append('<option value="' + headers[2].replaceAll('"', '') + '">' + headers[2].replaceAll('"', '').toUpperCase() + "</option>");
