@@ -32,10 +32,10 @@ function getProvinceData() {
             const array = data.toString().split("\n");
             $("#province").empty();
             $("#province").append('<option value="0" disabled selected>Select Province</option>');
-            for (var i = 0; i < array.length; i++) {
+            for (var i = 0; i < array.length-1; i++) {
                 let headers = array[i].replaceAll('"', '').split(",");
                 var lookupProvince = parseInt(headers[3], 10);
-                console.log(headers[3]);
+                //console.log(headers[3]);
                 if (lookupProvince == region) {
                     //console.log(headers[2].replaceAll('"', ''));
                     //console.log(headers[2]);
@@ -52,6 +52,7 @@ function getProvinceData() {
 }
  function getCityData() {
      var province = $("#province option:selected").data('id').toString().trim();
+     province = parseInt(province, 10);
      //console.log("province");
     $.ajax({
         type: "GET",
@@ -64,9 +65,9 @@ function getProvinceData() {
             //console.log(array.length);
             $("#municipality").empty();
             $("#municipality").append('<option value="0" disabled selected>Select City</option>');
-            for (var i = 0; i < array.length; i++) {
+            for (var i = 0; i < array.length-1; i++) {
                 let headers = array[i].replaceAll('"', '').split(",");
-                var lookUpCity = headers[4];
+                var lookUpCity = parseInt(headers[4], 10);
                 //console.log(headers[2]);
                 if (lookUpCity == province) {
                     $("#municipality").append('<option value="' + headers[2] + '"  data-id="' + headers[5] + '">' + headers[2] + "</option>");
@@ -77,8 +78,10 @@ function getProvinceData() {
         }
     });
 }
- function getBarangayData() {
-     var city = $("#municipality option:selected").data('id');
+function getBarangayData() {
+    var city = $("#municipality option:selected").data('id').toString().trim();
+
+    city = parseInt(city, 10);
      //console.log("city");
     $.ajax({
         type: "GET",
@@ -87,15 +90,15 @@ function getProvinceData() {
         success: function (data) {
             //console.log(data);
             const array = data.toString().split("\n");
-            let headers = array[0].split(",");
+            let headers = array[0].replaceAll('"', '').split(",");
             //console.log(array.length);
             $("#barangay").empty();
             $("#barangay").append('<option value="0" disabled selected>Select Barangay</option>');
             for (var i = 0; i < array.length; i++) {
-                let headers = array[i].split(",");
+                let headers = array[i].replaceAll('"', '').split(",");
                 //console.log(headers[2]);
-                if (headers[5].replaceAll('"', '').trim() == city.trim()) {
-                    $("#barangay").append('<option value="' + headers[2].replaceAll('"', '') + '">' + headers[2].replaceAll('"', '').toUpperCase() + "</option>");
+                if (headers[5] == city) {
+                    $("#barangay").append('<option value="' + headers[2] + '">' + headers[2].toUpperCase() + "</option>");
                 }
                 
             }
@@ -103,7 +106,6 @@ function getProvinceData() {
         }
     });
 }
-
  function addressDOM() {
     var region = document.getElementById('region');
     var province = document.getElementById('province');
