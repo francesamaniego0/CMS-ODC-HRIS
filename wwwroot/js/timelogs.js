@@ -21,7 +21,7 @@ async function timeLogs() {
         data.deleteFlag = 1;
         data.Remarks = mtlremarks;
         data.Identifier = "Manual";
-        //console.log(data);
+        console.log(data);
         $.ajax({
             url: '/TimeLogs/ManualLogs',
             data: data,
