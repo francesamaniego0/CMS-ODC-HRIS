@@ -137,6 +137,7 @@ function scheduleDOM() {
         event.preventDefault();
         var title = document.getElementById('schedtitle').value;
         var description = document.getElementById('scheddescription').value;
+        var schedId = document.getElementById('schedId').value;
         var mondays = document.getElementById('mondays').value;
         var mondaye = document.getElementById('mondaye').value;
         var tuesdays = document.getElementById('tuesdays').value;
@@ -154,6 +155,7 @@ function scheduleDOM() {
 
         document.getElementById('mondays').value = fridays;
         var data = {};
+        data.id = schedId;
         data.title = title;
         data.description = description;
         data.mondays = mondays;
@@ -181,7 +183,7 @@ function scheduleDOM() {
             dataType: "json"
         }).done(function (data) {
             //console.log(data);
-            notifyMsg('Success!', 'Successfully Saved', 'green', 'fas fa-check');
+            notifyMsg('Success!', data.status, 'green', 'fas fa-check');
             smodal.style.display = "none";
             initializeDataTable();
         });
@@ -444,4 +446,52 @@ function closeScheduleModal() {
 function openScheduleModal() {
     smodal = document.getElementById('schedmodal');
     smodal.style.display = "flex";
+}
+
+function deletemodalSchedule() {
+    var element = document.querySelectorAll(".modal-header");
+    var content = document.querySelectorAll(".modal-content");
+    var modal_span = document.querySelectorAll(".modal-header span");
+    var delete_ = '<input type="submit" value="YES" id="btn-delete_item" class="btn-pay"  onclick="delete_item_schedule()"/>';
+    var cancelButton = '<input type="submit" value="NO" id="btn-cancel" class="btn-NO" data-dismiss="modal"/>';
+    $('.input-container-button').empty();
+    $('.img-header').empty();
+
+    content.forEach(content => {
+        content.style.setProperty("border-radius", "15px 15px 15px 15px", "important");
+        content.style.setProperty("border-bottom", "7px #d03a4b solid", "important");
+
+    });
+    modal_span.forEach(modal_span => {
+        modal_span.style.setProperty("text-align", "center", "important");
+        modal_span.style.setProperty("width", "100%", "important");
+    });
+    element.forEach(element => {
+        element.style.setProperty("color", "white", "important");
+        element.style.setProperty("background-color", "#d03a4b", "important");
+        element.style.setProperty("border-radius", "15px 15px 0 0", "important");
+        element.style.setProperty("text-align", "center", "important");
+    });
+    document.getElementById('message').textContent = 'Are you sure you want to delete this item?';
+    document.getElementById('validation').textContent = 'Confirmation';
+    $('.input-container-button').append(cancelButton);
+    $('.input-container-button').append(delete_);
+    $('.img-header').append('<img id="modalImage" src="/img/OPTION.webp" alt="Modal Image" />');
+}
+function delete_item_schedule() {
+    var data = {};
+    var schedId = localStorage.getItem('schedid');
+    data.id = schedId;
+    data.title = "";
+    $.ajax({
+        url: '/Schedule/AddSchedule',
+        data: data,
+        type: "POST",
+        dataType: "json"
+    }).done(function (data) {
+        //console.log(data);
+        notifyMsg('Success!', 'Successfully Deleted', 'green', 'fas fa-check');
+        $("#alertmodal").modal('hide');
+        initializeDataTable();
+    });
 }

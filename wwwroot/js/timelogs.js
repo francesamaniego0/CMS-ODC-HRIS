@@ -70,8 +70,6 @@ async function timeLogs() {
         });
         
     });
-
-
     $('#timeoutreason').on('change', function () {
 
         document.getElementById("add-timeout").disabled = false;
@@ -97,14 +95,14 @@ async function timeLogs() {
 }
 function delete_item_timelogs() {
 
-    console.log(localStorage.getItem('id'));
-    console.log(localStorage.getItem('status'));
-    console.log(localStorage.getItem('task'));
-    console.log(localStorage.getItem('dateString'));
-    console.log(localStorage.getItem('timein'));
-    console.log(localStorage.getItem('timeout'));
-    console.log(localStorage.getItem('remarks'));
-    console.log(localStorage.getItem('userid'));
+    //console.log(localStorage.getItem('id'));
+    //console.log(localStorage.getItem('status'));
+    //console.log(localStorage.getItem('task'));
+    //console.log(localStorage.getItem('dateString'));
+    //console.log(localStorage.getItem('timein'));
+    //console.log(localStorage.getItem('timeout'));
+    //console.log(localStorage.getItem('remarks'));
+    //console.log(localStorage.getItem('userid'));
 
 
     var mtlid = localStorage.getItem('id');
@@ -146,7 +144,7 @@ function decline_item() {
     var data = {};
     data.id = mtlid;
     data.action = action;
-    console.log(data);
+    //console.log(data);
     $.ajax({
         url: '/TimeLogs/UpdateLogStatus',
         data: data,
@@ -156,7 +154,12 @@ function decline_item() {
         //console.log(data);
         //alert("Declined");
         $("#alertmodal").modal('hide');
-        notifyMsg('Success!', 'Successfully Decline', 'green', 'fas fa-check');
+        if (action == 1) {
+            notifyMsg('Success!', 'Successfully Decline', 'red', 'fas fa-check');
+        }
+        else {
+            notifyMsg('Success!', 'Successfully Approve', 'green', 'fas fa-check');
+        }
         initializeDataTable();
         renderedHours();
     });
@@ -398,6 +401,39 @@ function renderedHours() {
             }
             //console.log(total.toFixed(2));
             //$('#totalamount').html("Total Rendered Hours: " + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + total.toFixed(2));
+        }
+    });
+}
+
+function floatButtonDOM() {
+    $('#open-float-btn').click(function () {
+        document.getElementById('open-float-btn').style.display = "none";
+        document.getElementById('close-float-btn').style.display = "block";
+        document.getElementById('time-btn-holder').style.display = "flex";
+
+    });
+    $('#close-float-btn').click(function () {
+        document.getElementById('open-float-btn').style.display = "block";
+        document.getElementById('close-float-btn').style.display = "none";
+        document.getElementById('time-btn-holder').style.display = "none";
+    });
+    $(window).resize(function () {
+        //initializeDataTable();
+        if (screen.width > 790) {
+            var res = document.querySelectorAll('.taskDesc');
+            for (var i = 0; i < res.length; i++) {
+                res[i].style.display = "none";
+            }
+            document.getElementById('time-btn-holder').style.display = "block";
+        }
+        else
+        {
+            var res = document.querySelectorAll('.taskDesc');
+            for (var i = 0; i < res.length; i++) {
+                res[i].style.display = "flex";
+            }
+            document.getElementById('time-btn-holder').style.display = "none";
+           
         }
     });
 }

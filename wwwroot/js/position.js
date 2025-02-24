@@ -2,7 +2,7 @@
 function myFunction() {
     pmodal.style.display = "none";
 }
-function myFunctionOpen() {
+function myFunctionOpenModal() {
     document.getElementById('posid').value = "0";
     document.getElementById('posname').value = "";
     document.getElementById('desc').value = "";
@@ -27,7 +27,7 @@ async function position() {
         data.id = posid;
         data.name = posname;
         data.description = posdesc;
-        data.status = 1;
+        data.deleteFlag = 0;
         if (posid == 0) {
 
             data.dateCreated = datetoday;
@@ -77,44 +77,32 @@ async function position() {
 
 function delete_item() {
 
-    console.log(localStorage.getItem('id'));
-    //console.log(localStorage.getItem('status'));
-    //console.log(localStorage.getItem('task'));
-    //console.log(localStorage.getItem('dateString'));
-    //console.log(localStorage.getItem('timein'));
-    //console.log(localStorage.getItem('timeout'));
-    //console.log(localStorage.getItem('remarks'));
-    //console.log(localStorage.getItem('userid'));
 
 
-    var mtlid = localStorage.getItem('id');
+    var posid = localStorage.getItem('posid');
+    var posname = localStorage.getItem('posname');
+    var posdesc = localStorage.getItem('posdesc');
+
+    
     //var mtldate = localStorage.getItem('dateString');
     //var mtltimein = localStorage.getItem('timein');
     //var mtltimeout = localStorage.getItem('timein');
     //var manualtask = localStorage.getItem('task');
     //var mtlremarks = localStorage.getItem('remarks');
-
+    
     var data = {};
-    data.id = mtlid;
-    //data.userId = uid;
-    //data.date = mtldate;
-    //data.timeIn = mtltimein;
-    //data.timeOut = mtltimeout;
-    //data.renderedHours = (new Date(mtltimeout) - new Date(mtltimein)) / 3600000;
-    //data.TaskId = manualtask;
-    //data.status = 0;
-    //data.Remarks = mtlremarks;
+    data.id = posid;
     console.log(data);
-    //$.ajax({
-    //    url: '/TimeLogs/ManualLogs',
-    //    data: data,
-    //    type: "POST",
-    //    dataType: "json"
-    //}).done(function (data) {
-    //    //console.log(data);
-    //    $("#alertmodal").modal('hide');
-    //    notifyMsg('Success!', 'Successfully Saved', 'green', 'fas fa-check');
-    //    initializeDataTable();
-    //});
+    $.ajax({
+        url: '/Position/DeletePosition',
+        data: data,
+        type: "POST",
+        dataType: "json"
+    }).done(function (data) {
+        //console.log(data);
+        notifyMsg('Success!', 'Successfully Deleted', 'red', 'fas fa-check');
+        $("#alertmodal").modal('hide');
+        initializeDataTable();
+    });
 
 }

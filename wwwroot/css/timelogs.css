@@ -13,7 +13,9 @@
     background-color: rgba(0,0,0, .3);
     position: fixed;
     top: 0;
-    width: calc(100vw - var(--sidebarwidth-active));
+    left: 0;
+/*    width: calc(100vw - var(--sidebarwidth-active));*/
+    width: 100vw;
     height: 100vh;
     display: flex;
     align-items: center;
@@ -29,6 +31,7 @@
     border-radius: 15px;
     padding: 25px 50px;
     gap: 20px;
+
 }
 
 .header {
@@ -118,7 +121,7 @@ button:disabled {
     width: 30%;
     min-height: 200px;
     padding: 15px;
-    text-align: left;
+    text-align: center;
     display: none;
     flex-direction: column;
     margin-left: -20px;
@@ -144,7 +147,9 @@ button:disabled {
     background-color: rgba(0,0,0, .3);
     position: fixed;
     top: 0;
-    width: calc(100vw - var(--sidebarwidth-active));
+    left: 0;
+/*    width: calc(100vw - var(--sidebarwidth-active));*/
+    width: 100vw;
     height: 100vh;
     display: flex;
     align-items: center;
@@ -245,4 +250,224 @@ footer {
 
 #mode-inputs {
     display: flex;
+}
+.float-btn{
+    display: none;
+}
+table span{
+    color: var(--dark) !important;
+}
+.left-align{
+    text-align: left;
+}
+table .child ul li .dtr-title:after {
+    content: ": ";
+}
+table .child ul li {
+    display: flex;
+}
+
+.child {
+    text-align: left
+}
+
+table .child ul li .dtr-data .action {
+    flex-wrap: wrap;
+}
+@media only screen and (max-width: 1024px) {
+    #dashboard-main-container.active{
+        width: 100vw !important;
+    }
+    .main-container {
+        padding: 0;
+        overflow: hidden;
+    }
+    .title-main-container {
+        padding: 0 25px;
+    }
+    .content-container{
+        margin: 0;
+    }
+    .content-container h4{
+        font-size: 22px !important;
+    }
+    /*.date-input,
+    .time-btn {
+        width: 100% !important;
+    }*/
+    .date-input input{
+        width: 150px !important;
+    }
+    #close-float-btn{
+        display: none;
+    }
+   
+    .modal-holder {
+        position: fixed;
+        top: 0;
+        left: 0;
+        /*    width: calc(100vw - var(--sidebarwidth-active));*/
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1;
+        display: none;
+        overflow: scroll;
+    }
+    .timelogsmodal{
+        width: 70%;
+        padding: 25px;
+
+    }
+    .timelogsmodal h3{
+        font-size: 22px;
+    }
+    .timelogsmodal input,
+    .timelogsmodal select,
+    .timelogsmodal textarea{
+        font-size: 16px;
+        padding: 5px !important;
+        width: 100px !important;
+
+    }
+    .timelogsmodal textarea{
+        height: 100px;
+
+    }
+}
+
+@media only screen and (max-width: 790px) {
+
+    .timelogsmodal {
+        width: 95%;
+        margin: 5%;
+        padding: 25px;
+    }
+    .date-input,
+    .time-btn {
+        width: 100% !important;
+    }
+    .title-main-container {
+        padding: 0;
+    }
+    .time-btn-holder {
+        flex-direction: column !important;
+        gap: 20px;
+        background-color: var(--light);
+        padding: 25px;
+        box-shadow: 2px 2px 5px 5px rgba(0,0,0,.2);
+        border-radius: 15px;
+        width: 250px !important;
+        position: fixed;
+        right: 30px;
+        z-index: 1;
+        bottom: 100px;
+    }
+    #time-btn-holder {
+        display: none;
+    }
+    .float-btn {
+        display: flex;
+        position: fixed;
+        right: 30px;
+        padding: 15px;
+        bottom: 30px;
+        border-radius: 100%;
+        box-shadow: 2px 2px 2px 2px rgba(0,0,0,.2);
+        font-size: 30px;
+        background-color: var(--dark);
+        text-align: center;
+    }
+    #open-float-btn,
+    #close-float-btn {
+        color: var(--light);
+        width: 30px;
+    }
+    #time-table_wrapper .row{
+        flex-direction: row !important;
+        flex-wrap: nowrap
+    }
+    #time-table_wrapper .col-sm-12{
+        flex:auto;
+    }
+    #time-table_wrapper .row div .dataTables_length,
+    #time-table_wrapper .row div #time-table_filter{
+        width: 50% !important;
+        display: flex;
+        align-items: center;
+    }
+    div.dataTables_wrapper div.dataTables_info{
+        text-align: left;
+    }
+    .div.dataTables_wrapper div.dataTables_paginate ul.pagination {
+        justify-content: right !important;
+    }
+    .taskDesc{
+        display: block !important;
+        position: static !important;
+        color: var(--dark);
+        background: transparent;
+        width: 100%;
+        margin: 0;
+        text-align: center !important;
+    }
+    .taskDesc h4{
+        font-size: 16px;
+        text-align: center !important;
+    }
+    .date-input input,
+    #time-table_wrapper .row div .dataTables_length,
+    #time-table_wrapper .row div #time-table_filter,
+    #time-table_wrapper .row div #time-table_filter label,
+    #time-table_wrapper .row div .dataTables_length label {
+        width: 100px !important;
+        font-size: 13px !important;
+        padding: 5px;
+        margin: 0 !important;
+    }
+    #time-table_wrapper .row div .dataTables_length select {
+        font-size: 13px !important;
+        margin: 0 !important;
+        height: 40px;
+    }
+    div.dataTables_wrapper div.dataTables_filter input {
+        font-size: 13px !important;
+        padding: 5px;
+        height: 40px !important;
+    }
+}
+@media only screen and (max-width: 500px) {
+    #time-table_wrapper .row {
+        flex-wrap: nowrap
+    }
+
+    div.dataTables_wrapper div.dataTables_filter input {
+        width: 100% !important;
+        font-size: 13px !important;
+        padding: 5px;
+    }
+    #time-table_wrapper .row .dataTables_info {
+        text-align: center;
+    }
+    #time-table_wrapper .row .dataTables_paginate .pagination  {
+        margin-top: 15px;
+        justify-content: center !important;
+    }
+    .total-hrs {
+        color: red !important;
+        text-align: center !important;
+    }
+    .total-hrs label{
+        text-align: center !important;
+        font-size: 18px !important;
+    }
+    #time-table_filter input{
+        max-width: 180px;
+    }
+    #time-table span{
+        color: var(--dark) !important;
+    }
+
 }

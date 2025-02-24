@@ -357,12 +357,18 @@ li {
             color:var(--light);
         }
 
-li.maintenance:hover ~ .sub-nav {
+/*li.maintenance:hover ~ .sub-nav {
     height: auto;
- 
     color:white;
+}*/
+#maintenanceArrow{
+    margin-left: 50px;
 }
-
+.sub-nav {
+    height: auto !important;
+    color: white;
+    display: none;
+}
 .sub-nav
 {
     margin-left:20px;

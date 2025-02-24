@@ -28,9 +28,66 @@ function updateSidebar() {
         dashboaradsidebar.classList.remove('active');
         //empdashboard.classList.remove('active');
 }
-} function showloadingoverlay() {
+}
+function showloadingoverlay() {
     const loadingOverlay = document.getElementById('loadingOverlay');
     loadingOverlay.style.display = 'flex'; // Display the loading overlay
+}
+
+function showsubnav() {
+   
+    localStorage.setItem('subnav', 0);
+    localStorage.setItem('topbarsubnav', 0);
+    $('#maintenance').on('click', function () {
+        var isSubNav = localStorage.getItem('subnav');
+        var subnav = document.getElementById('subnav');
+        const arrow = document.getElementById('maintenanceArrow');
+
+        if (isSubNav == 0) {
+            localStorage.setItem('subnav', 1);
+
+            subnav.style.display = 'block';
+            // Remove a class
+            arrow.classList.remove('fa-chevron-down');
+            // Add a class
+            arrow.classList.add('fa-chevron-up');
+        }
+        else {
+            localStorage.setItem('subnav', 0);
+
+            subnav.style.display = 'none';
+
+            // Remove a class
+            arrow.classList.remove('fa-chevron-up');
+            // Add a class
+            arrow.classList.add('fa-chevron-down');
+        }
+    });
+    $('#topbarmaintenance').on('click', function () {
+        var topbarisSubNav = localStorage.getItem('topbarsubnav');
+        var topbarsubnav = document.getElementById('topbarsubnav');
+        const topbararrow = document.getElementById('topbarmaintenanceArrow');
+
+        if (topbarisSubNav == 0) {
+            localStorage.setItem('topbarsubnav', 1);
+
+            topbarsubnav.style.display = 'block';
+            // Remove a class
+            topbararrow.classList.remove('fa-chevron-down');
+            // Add a class
+            topbararrow.classList.add('fa-chevron-up');
+        }
+        else {
+            localStorage.setItem('topbarsubnav', 0);
+
+            topbarsubnav.style.display = 'none';
+
+            // Remove a class
+            topbararrow.classList.remove('fa-chevron-up');
+            // Add a class
+            topbararrow.classList.add('fa-chevron-down');
+        }
+    });
 }
 function hideloadingoverlay() {
     loadingOverlay.style.display = 'none';
@@ -106,6 +163,11 @@ async function fetchmanagerselect() {
             $("#manager").append('<option value="" disabled selected>Select Manager</option>');
             for (var i = 0; i < data.length; i++) {
                 $("#manager").append('<option value="' + data[i].id + '">' + data[i].name + "</option>");
+            }
+            $("#departmenthead").empty();
+            $("#departmenthead").append('<option value="" disabled selected>Select Department Head</option>');
+            for (var i = 0; i < data.length; i++) {
+                $("#departmenthead").append('<option value="' + data[i].id + '">' + data[i].name + "</option>");
             }
 
         }
@@ -302,6 +364,38 @@ function fetchBreakselect() {
         }
     });
 }
+function GetScheduleListOption() {
+
+    $.ajax({
+        url: '/Schedule/GetScheduleListOption',
+        data: {},
+        type: "GET",
+        datatype: "json"
+    }).done(function (data) { // @* //  *@
+        //console.log(data)
+        $("#schedule").empty();
+        $("#schedule").append('<option value="" disabled selected>Select Schedule</option>');
+        for (var i = 0; i < data.length; i++) {
+            $("#schedule").append('<option value="' + data[i].id + '">' + data[i].title + "</option>");
+        }
+    });
+}
+function GetETypeListOption() {
+
+    $.ajax({
+        url: '/EmployeeType/GetETypeListOption',
+        data: {},
+        type: "GET",
+        datatype: "json"
+    }).done(function (data) { // @* //  *@
+        //console.log(data)
+        $("#uType").empty();
+        $("#uType").append('<option value="" disabled selected>Select Employee Type</option>');
+        for (var i = 0; i < data.length; i++) {
+            $("#uType").append('<option value="' + data[i].id + '">' + data[i].title + "</option>");
+        }
+    });
+}
 function printPage() {
     var printWindow = window.open('/Home/OR_Print', '_blank');
     // Wait for the new window to load and then trigger the print dialog
@@ -422,11 +516,131 @@ function deletemodal() {
     $('.input-container-button').append(delete_);
     $('.img-header').append('<img id="modalImage" src="/img/OPTION.webp" alt="Modal Image" />');
 }
+function deletedepartmentmodal() {
+    var element = document.querySelectorAll(".modal-header");
+    var content = document.querySelectorAll(".modal-content");
+    var modal_span = document.querySelectorAll(".modal-header span");
+    var delete_ = '<input type="submit" value="YES" id="btn-delete_item" class="btn-pay"  onclick="delete_item_department()"/>';
+    var cancelButton = '<input type="submit" value="NO" id="btn-cancel" class="btn-NO" data-dismiss="modal"/>';
+    $('.input-container-button').empty();
+    $('.img-header').empty();
+
+    content.forEach(content => {
+        content.style.setProperty("border-radius", "15px 15px 15px 15px", "important");
+        content.style.setProperty("border-bottom", "7px #d03a4b solid", "important");
+
+    });
+    modal_span.forEach(modal_span => {
+        modal_span.style.setProperty("text-align", "center", "important");
+        modal_span.style.setProperty("width", "100%", "important");
+    });
+    element.forEach(element => {
+        element.style.setProperty("color", "white", "important");
+        element.style.setProperty("background-color", "#d03a4b", "important");
+        element.style.setProperty("border-radius", "15px 15px 0 0", "important");
+        element.style.setProperty("text-align", "center", "important");
+    });
+    document.getElementById('message').textContent = 'Are you sure you want to delete this item?';
+    document.getElementById('validation').textContent = 'Confirmation';
+    $('.input-container-button').append(cancelButton);
+    $('.input-container-button').append(delete_);
+    $('.img-header').append('<img id="modalImage" src="/img/OPTION.webp" alt="Modal Image" />');
+}
+function deletepayrollmodal() {
+    var element = document.querySelectorAll(".modal-header");
+    var content = document.querySelectorAll(".modal-content");
+    var modal_span = document.querySelectorAll(".modal-header span");
+    var delete_ = '<input type="submit" value="YES" id="btn-delete_item" class="btn-pay"  onclick="delete_item_payroll()"/>';
+    var cancelButton = '<input type="submit" value="NO" id="btn-cancel" class="btn-NO" data-dismiss="modal"/>';
+    $('.input-container-button').empty();
+    $('.img-header').empty();
+
+    content.forEach(content => {
+        content.style.setProperty("border-radius", "15px 15px 15px 15px", "important");
+        content.style.setProperty("border-bottom", "7px #d03a4b solid", "important");
+
+    });
+    modal_span.forEach(modal_span => {
+        modal_span.style.setProperty("text-align", "center", "important");
+        modal_span.style.setProperty("width", "100%", "important");
+    });
+    element.forEach(element => {
+        element.style.setProperty("color", "white", "important");
+        element.style.setProperty("background-color", "#d03a4b", "important");
+        element.style.setProperty("border-radius", "15px 15px 0 0", "important");
+        element.style.setProperty("text-align", "center", "important");
+    });
+    document.getElementById('message').textContent = 'Are you sure you want to delete this item?';
+    document.getElementById('validation').textContent = 'Confirmation';
+    $('.input-container-button').append(cancelButton);
+    $('.input-container-button').append(delete_);
+    $('.img-header').append('<img id="modalImage" src="/img/OPTION.webp" alt="Modal Image" />');
+}
+function deletesalarymodal() {
+    var element = document.querySelectorAll(".modal-header");
+    var content = document.querySelectorAll(".modal-content");
+    var modal_span = document.querySelectorAll(".modal-header span");
+    var delete_ = '<input type="submit" value="YES" id="btn-delete_item" class="btn-pay"  onclick="delete_item_salary()"/>';
+    var cancelButton = '<input type="submit" value="NO" id="btn-cancel" class="btn-NO" data-dismiss="modal"/>';
+    $('.input-container-button').empty();
+    $('.img-header').empty();
+
+    content.forEach(content => {
+        content.style.setProperty("border-radius", "15px 15px 15px 15px", "important");
+        content.style.setProperty("border-bottom", "7px #d03a4b solid", "important");
+
+    });
+    modal_span.forEach(modal_span => {
+        modal_span.style.setProperty("text-align", "center", "important");
+        modal_span.style.setProperty("width", "100%", "important");
+    });
+    element.forEach(element => {
+        element.style.setProperty("color", "white", "important");
+        element.style.setProperty("background-color", "#d03a4b", "important");
+        element.style.setProperty("border-radius", "15px 15px 0 0", "important");
+        element.style.setProperty("text-align", "center", "important");
+    });
+    document.getElementById('message').textContent = 'Are you sure you want to delete this item?';
+    document.getElementById('validation').textContent = 'Confirmation';
+    $('.input-container-button').append(cancelButton);
+    $('.input-container-button').append(delete_);
+    $('.img-header').append('<img id="modalImage" src="/img/OPTION.webp" alt="Modal Image" />');
+}
 function deletemodalTimelogs() {
     var element = document.querySelectorAll(".modal-header");
     var content = document.querySelectorAll(".modal-content");
     var modal_span = document.querySelectorAll(".modal-header span");
     var delete_ = '<input type="submit" value="YES" id="btn-delete_item" class="btn-pay"  onclick="delete_item_timelogs()"/>';
+    var cancelButton = '<input type="submit" value="NO" id="btn-cancel" class="btn-NO" data-dismiss="modal"/>';
+    $('.input-container-button').empty();
+    $('.img-header').empty();
+
+    content.forEach(content => {
+        content.style.setProperty("border-radius", "15px 15px 15px 15px", "important");
+        content.style.setProperty("border-bottom", "7px #d03a4b solid", "important");
+
+    });
+    modal_span.forEach(modal_span => {
+        modal_span.style.setProperty("text-align", "center", "important");
+        modal_span.style.setProperty("width", "100%", "important");
+    });
+    element.forEach(element => {
+        element.style.setProperty("color", "white", "important");
+        element.style.setProperty("background-color", "#d03a4b", "important");
+        element.style.setProperty("border-radius", "15px 15px 0 0", "important");
+        element.style.setProperty("text-align", "center", "important");
+    });
+    document.getElementById('message').textContent = 'Are you sure you want to delete this item?';
+    document.getElementById('validation').textContent = 'Confirmation';
+    $('.input-container-button').append(cancelButton);
+    $('.input-container-button').append(delete_);
+    $('.img-header').append('<img id="modalImage" src="/img/OPTION.webp" alt="Modal Image" />');
+}
+function deletemodalEType() {
+    var element = document.querySelectorAll(".modal-header");
+    var content = document.querySelectorAll(".modal-content");
+    var modal_span = document.querySelectorAll(".modal-header span");
+    var delete_ = '<input type="submit" value="YES" id="btn-delete_item" class="btn-pay"  onclick="delete_item_EType()"/>';
     var cancelButton = '<input type="submit" value="NO" id="btn-cancel" class="btn-NO" data-dismiss="modal"/>';
     $('.input-container-button').empty();
     $('.img-header').empty();
@@ -545,4 +759,18 @@ function successmodal(Id) {
 document.addEventListener('DOMContentLoaded', function () {
 });
 
+
+function topBarDOM() {
+    $('#open-nav').click(function () {
+        document.getElementById('open-nav').style.display = "none";
+        document.getElementById('close-nav').style.display = "block";
+        document.getElementById('top-bar-menu').style.display = "block";
+        
+    });
+    $('#close-nav').click(function () {
+        document.getElementById('close-nav').style.display = "none";
+        document.getElementById('open-nav').style.display = "block";
+        document.getElementById('top-bar-menu').style.display = "none";
+    });
+}
 
