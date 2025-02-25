@@ -501,12 +501,12 @@ function initializeDataTable() {
                 "title": "Date",
                 "data": "date",
                 "render": function (data) {
-                    const parts = data.split('/');
-                    const part = parts[2].split(' ');
-                    // console.log(part);
-                    if (parts.length === 3) {
+                    const parts = data.split(' ');
+                    const part = parts[0].split('/');
+                     console.log(part);
+                    if (part.length === 3) {
                         // Convert to `YYYY-MM-DD`
-                        const formattedDate = `${part[0]}-${parts[1]}-${parts[0]}`;
+                        const formattedDate = `${part[2]}-${part[1]}-${part[0]}`;
                         return formattedDate;
                     }
                     return data;
@@ -642,8 +642,7 @@ function initializeDataTable() {
                     return button;
                 }
             }
-        ],
-        order: [[0, 'desc']] // Sort the second column (index 1) by descending order
+        ]
         , responsive: true
         // , columnDefs:  columnDefsConfig
         , columnDefs: [
@@ -655,7 +654,8 @@ function initializeDataTable() {
             { responsivePriority: 10007, targets: 3 },
             { targets: 2, className: 'none' },
             { "type": "date", "targets": 0 }
-        ]
+        ],
+        order: [[0, 'desc']] // Sort the second column (index 1) by descending order
 
         // columnDefs: [
         //     {
