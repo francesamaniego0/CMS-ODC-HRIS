@@ -506,7 +506,7 @@ function initializeDataTable() {
                      console.log(part);
                     if (part.length === 3) {
                         // Convert to `YYYY-MM-DD`
-                        const formattedDate = `${part[2]}-${part[1]}-${part[0]}`;
+                        const formattedDate = `${part[2]}-${part[0]}-${part[1]}`;
                         return formattedDate;
                     }
                     return data;
