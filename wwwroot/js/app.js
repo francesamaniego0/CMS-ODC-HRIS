@@ -305,7 +305,7 @@ function fetchsalarytypeselect() {
         datatype: "json"
     }).done(function (data) { // @* //  *@
         //console.log(data)
-        $('#rate').val(data[0].rate);
+        //$('#rate').val(data[0].rate);
         $("#salarytype").empty();
         $("#salarytype").append('<option value="" disabled selected>Select Salary Type</option>');
         for (var i = 0; i < data.length; i++) {
