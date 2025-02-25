@@ -437,3 +437,339 @@ function floatButtonDOM() {
         }
     });
 }
+function initializeDataTable() {
+    var tableId = '#time-table';
+    var lastSelectedRow = null;
+    var img = "/img/OPTION.webp";
+    var columnDefsConfig = [];
+    var tableuserid = localStorage.getItem('tableuserid');
+    if (screen.width > 790) {
+        columnDefsConfig = [{ width: '800px', targets: 0 }];
+    } else {
+        columnDefsConfig = [{ width: '500px', targets: 0 }];
+    }
+    // Check if DataTable is already initialized
+    if ($.fn.DataTable.isDataTable(tableId)) {
+        // Destroy the existing DataTable instance
+        $(tableId).DataTable().clear().destroy();
+    }
+    const data = {
+        Usertype: '',
+        UserId: tableuserid,
+        datefrom: $('#datefrom').val(),
+        dateto: $('#dateto').val(),
+        Department: ''
+    };
+
+    var dtProperties = {
+        ajax: {
+            url: '/TimeLogs/GetTimelogsList',
+            type: "POST",
+            data: {
+                data: data
+            },
+            dataType: "json",
+            processing: true,
+            serverSide: true,
+            complete: function (xhr) {
+                // var url = new URL(window.location.href);
+                // var _currentPage = url.searchParams.get("page01") == null ? 1 : url.searchParams.get("page01");
+                // // console.log('table1', _currentPage);
+                // table.page(_currentPage - 1).draw('page');
+
+                // Compute total rendered hours after data is loaded
+                computeTotalRenderedHoursEmp();
+            },
+            error: function (err) {
+                alert(err.responseText);
+            }
+        },
+        columns: [
+            // {
+            //     "title": "Profile",
+            //     "data": "id",
+            //     "render": function (data, type, row) {
+            //         var images = row['filePath'] == null ? img : row['filePath'];
+            //         return `<div class="data-img"><img src='/img/${images}' width="100%" /></div>`;
+            //     }
+            // },
+            // {
+            //     "title": "Employee ID #",
+            //     "data": "employeeID"
+            // },
+            {
+                "title": "Date",
+                "data": "date",
+                "render": function (data) {
+                    const parts = data.split('/');
+                    const part = parts[2].split(' ');
+                    // console.log(part);
+                    if (parts.length === 3) {
+                        // Convert to `YYYY-MM-DD`
+                        const formattedDate = `${part[0]}-${parts[1]}-${parts[0]}`;
+                        return formattedDate;
+                    }
+                    return data;
+                },
+                type: "date" // Ensures proper sorting by date
+            },
+            // {
+            //     "title": "Task",
+            //     "data": "task",
+            //     "render": function (data, type, row) {
+            //         if (row.remarks != "") {
+            //             var details = `<div> ${data} </div>
+            //                            <div class="taskDesc" id='taskDesc${row.id}'>
+            //                                 <h4> Task Description: </h4>
+            //                                 ${row.remarks} 
+            //                             </div>`;
+
+            //         }
+            //         else {
+            //             var details = `<div> ${data} </div>`;
+            //         }
+            //         return details;
+            //     }
+            // },
+            {
+                "title": "Task",
+                "data": "task"
+            },
+            {
+                "title": "Task Description",
+                "data": "remarks"
+            },
+            {
+                "title": "Time In",
+                "data": "timeIn",
+                "render": function (data, type, row) {
+                    // var timeout = new Date(data).toLocaleTimeString('en-US');
+                    var timein = new Date(data).toLocaleString('en-US');
+                    timein = timein.replace(',', '').replaceAll('/', '-');
+                    return timein;
+                }
+            },
+
+            {
+                "title": "Time Out",
+                "data": "timeOut",
+                "render": function (data, type, row) {
+                    if (data == '') {
+                        var noValue = "";
+                        return noValue;
+                    }
+                    else {
+                        // var timeout = new Date(data).toLocaleTimeString('en-US');
+                        var timeout = new Date(data).toLocaleString('en-US');
+                        timeout = timeout.replace(',', '').replaceAll('/', '-');
+                        return timeout;
+                    }
+
+                }
+            },
+            {
+                "title": "Total Rendered Hours",
+                "data": "renderedHours"
+            },
+            {
+                "title": "Status",
+                "data": "statusName"
+            },
+            {
+                "title": "Action",
+                "data": "id",
+                "render": function (data, type, row) {
+                    var images = row['filePath'] == null ? img : row['filePath'];
+                    var status = row.statusId;
+                    var task = row.taskId;
+                    if (status == 2 || status == 5) {
+                        var button = `<div class="action">
+                                                        <button class="default-btn btn btn-danger" id="" title="Delete" 
+                                                            data-id="${data}"
+                                                            data-status="${row.statusId}"
+                                                            data-task="${row.taskId}"
+                                                            data-date="${row.date}"
+                                                            data-timein="${row.timeIn}"
+                                                            data-timeout="${row.timeOut}"
+                                                            data-remarks="${row.remarks}"
+                                                            data-userid="${row.userId}"
+                                                        disabled>
+                                                    <i class="fa-solid fa-trash"></i> delete
+                                                </button>
+                                                        <button class="default-btn btn btn-info" id="add-timeout" title="Time Out"
+                                                            data-id="${data}"
+                                                            data-status="${row.statusId}"
+                                                            data-task="${row.taskId}"
+                                                            data-date="${row.date}"
+                                                            data-timein="${row.timeIn}"
+                                                            data-timeout="${row.timeOut}"
+                                                            data-remarks="${row.remarks}"
+                                                            data-userid="${row.userId}"
+                                                                disabled>
+                                                            <i class="fa-solid fa-pen-to-square"></i> edit
+                                                        </button>
+                                            </div>`;
+                    }
+                    else {
+                        var button = `<div class="action">
+                                                        <button class="tbl-delete btn btn-danger" id="add-timein" title="Delete" 
+                                                            data-id="${data}"
+                                                            data-status="${row.statusId}"
+                                                            data-task="${row.taskId}"
+                                                            data-date="${row.date}"
+                                                            data-timein="${row.timeIn}"
+                                                            data-timeout="${row.timeOut}"
+                                                            data-remarks="${row.remarks}"
+                                                            data-userid="${row.userId}"
+                                                        >
+                                                    <i class="fa-solid fa-trash"></i> delete
+                                                </button>
+                                                        <button class="tbl-edit btn btn-info" id="add-timeout" title="Time Out"
+                                                            data-id="${data}"
+                                                            data-status="${row.statusId}"
+                                                            data-task="${row.taskId}"
+                                                            data-date="${row.date}"
+                                                            data-timein="${row.timeIn}"
+                                                            data-timeout="${row.timeOut}"
+                                                            data-remarks="${row.remarks}"
+                                                            data-userid="${row.userId}"
+                                                                >
+                                                            <i class="fa-solid fa-pen-to-square"></i> edit
+                                                        </button>
+                                            </div>`;
+
+                    }
+                    return button;
+                }
+            }
+        ],
+        order: [[0, 'desc']] // Sort the second column (index 1) by descending order
+        , responsive: true
+        // , columnDefs:  columnDefsConfig
+        , columnDefs: [
+            { targets: 1, className: 'left-align' },
+            { responsivePriority: 10010, targets: 6 },
+            { responsivePriority: 10009, targets: 5 },
+            { responsivePriority: 10008, targets: 0 },
+            { responsivePriority: 10007, targets: 4 },
+            { responsivePriority: 10007, targets: 3 },
+            { targets: 2, className: 'none' },
+            { "type": "date", "targets": 0 }
+        ]
+
+        // columnDefs: [
+        //     {
+        //         targets: 0,
+        //         type: 'date' // Ensure DataTables recognizes this column as date type
+        //     }
+        // ]
+    };
+
+    var table = $(tableId).DataTable(dtProperties);
+    // France Function
+    $(tableId).on('mouseenter', 'tbody tr', function () {
+        var data = table.row(this).data();
+
+        if (data) {
+            // Get the column index where the hover occurred
+
+            var descId = "taskDesc" + data.id;
+            var descTask = document.getElementById(descId);
+            // console.log(data);
+            var columnIndexs = $(this).index(); // Get the column index of the cell
+            if (descTask) {
+                descTask.style.display = "flex"; // Hide the popup
+            }
+
+            $(this).on('mouseenter', 'td', function (e) {
+                var columnIndex = $(this).index(); // Get the column index of the cell
+                if (columnIndex === 6) { // Column 6 has zero-based index 5
+                    if (descTask) {
+                        descTask.style.display = "none"; // Hide the popup
+                    }
+                }
+                else {
+                    if (descTask) {
+                        descTask.style.display = "flex"; // Hide the popup
+                    }
+                }
+            });
+        }
+
+    });
+    $(tableId).on('mouseleave', 'tbody tr', function (event) {
+        var data = table.row(this).data();
+        if (data) {
+
+            var descId = "taskDesc" + data.id;
+            var descTask = document.getElementById(descId);
+            // console.log(data);
+
+            if (descTask) {
+                descTask.style.display = "none";
+            }
+        }
+    });
+    $(tableId).on('mouseenter', 'tbody tr td .action', function () {
+        var data = table.row(this).data();
+        if (data) {
+            var descId = "taskDesc" + data.id;
+            var descTask = document.getElementById(descId);
+            // console.log(data);
+
+            if (descTask) {
+                descTask.style.display = "none";
+            }
+        }
+    });
+    // Attach computeTotalRenderedHours to the search event
+    $(tableId + '_filter input').on('keyup', function () {
+        computeTotalRenderedHoursEmp();
+    });
+
+    $('#time-table').on('page.dt', function () {
+        var info = table.page.info();
+        var url = new URL(window.location.href);
+        url.searchParams.set('page01', (info.page + 1));
+        window.history.replaceState(null, null, url);
+    });
+
+    $(tableId + '_filter input').attr('placeholder', 'Search anything here...');
+
+    $(tableId + ' tbody').on('click', 'tr', function () {
+        var data = table.row(this).data();
+        // console.log(data);
+        // Remove highlight from the previously selected row
+        if (lastSelectedRow) {
+            $(lastSelectedRow).removeClass('selected-row');
+        }
+
+        // Highlight the currently selected row
+        $(this).addClass('selected-row');
+        lastSelectedRow = this;
+    });
+
+    // Function to compute total rendered hours
+    function computeTotalRenderedHoursEmp() {
+        var totalHours = 0;
+
+        // Get all visible rows after searching
+        var rows = table.rows({ search: 'applied' }).nodes(); // Use 'applied' to get visible rows
+
+        // Iterate over each visible row and sum the rendered hours
+        $(rows).each(function () {
+            var renderedHours = parseFloat($(this).find('td:nth-child(6)').text()) || 0; // 7th column (0-based index)
+            // totalHours += renderedHours;
+            var status = $(this).find('td:nth-child(7)').text(); // 7th column (0-based index)
+            if (status == 'Approved') {
+                totalHours += renderedHours;
+            }
+            // console.log(renderedHours);
+        });
+
+        // Display the total hours with spaces
+        $('#totalamountEmp').html("Total Rendered Hours: " + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + totalHours.toFixed(2));
+    }
+
+
+}
